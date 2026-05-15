@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Shaale-Vikas</string>
+    <string name="pledged_on">Pledged on %1$s</string>
+    <string name="collected_status">Collected: %1$s / %2$s</string>
+    <string name="hall_of_fame">Hall of Fame</string>
+    <string name="add_new_need">Add New Need</string>
+    <string name="post_need">Post Need</string>
+    <string name="pledge_support">Pledge Support</string>
+    <string name="progress_percent">%1$d%%</string>
+    <string name="pledge_dialog_title">Pledge Support</string>
+    <string name="pledge_dialog_positive">Pledge</string>
+    <string name="pledge_dialog_negative">Cancel</string>
+    <string name="fill_all_fields">Please fill all fields</string>
+    <string name="thank_you_donor">Thank you %1$s for your pledge!</string>
+    <string name="pledge_failed">Pledge failed: %1$s</string>
+    <string name="error_fetching_needs">Error fetching needs: %1$s</string>
+    <string name="select_category">Select Category</string>
+    <string name="need_title_hint">Title (e.g., Roof Repair)</string>
+    <string name="need_desc_hint">Description</string>
+    <string name="need_cost_hint">Estimated Cost (₹)</string>
+    <string name="need_photo_label">Need Photo (Before)</string>
+    <string name="project_completed">This project is already completed!</string>
+    <string name="status_open">OPEN</string>
+    <string name="status_pledged">PLEDGED</string>
+    <string name="status_completed">COMPLETED</string>
+    <string name="admin_options">Admin Options</string>
+    <string name="mark_completed">Mark as Completed</string>
+    <string name="delete">Delete</string>
+    <string name="photo_upload_failed">Photo upload failed</string>
+    <string name="project_marked_completed">Project marked as Completed!</string>
+    <string name="need_deleted">Need deleted</string>
+    <string name="enter_title_error">Please enter a title first</string>
+    <string name="upload_failed">Failed to upload image</string>
+    <string name="post_success">Need posted successfully!</string>
+    <string name="post_failed">Failed to post need</string>
+
+    <!-- Login & Register -->
+    <string name="welcome_back">Welcome Back</string>
+    <string name="login_subtitle">Login to support your school</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="logging_in">Logging in...</string>
+    <string name="no_account">Don\'t have an account? Register here</string>
+    <string name="join_shaale_vikas">Join Shaale-Vikas</string>
+    <string name="register_subtitle">Create an account to help local schools</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="register_button">Register</string>
+    <string name="registering">Registering...</string>
+    <string name="already_have_account">Already have an account? Login here</string>
+    <string name="login_successful">Login successful!</string>
+    <string name="login_failed">Login failed: %1$s</string>
+    <string name="registration_successful">Registration successful!</string>
+    <string name="registration_failed">Registration failed: %1$s</string>
+    <string name="password_too_short">Password must be at least 6 characters</string>
+    <string name="logout">Logout</string>
+
+    <!-- Dialogs & Labels -->
+    <string name="donor_name_hint">Your Name</string>
+    <string name="pledge_amount_hint">Pledge Amount (₹)</string>
+    <string name="pledge_note">Note: This is a simulation of a commitment to help the school.</string>
+    <string name="error_fetching_donors">Error fetching donors: %1$s</string>
+    <string name="no_donors_yet">No donors yet.</string>
+    <string name="uploading_dots">Uploading...</string>
+    <string name="share_subject">Support our school: %1$s</string>
+    <string name="share_text">Help our school with %1$s. We need %2$s for this initiative. Check it out on Shaale-Vikas app!</string>
+    <string name="invalid_amount">Please enter a valid amount</string>
+
+    <!-- Presentation Polish -->
+    <string name="dashboard_header">Building our children\'s future, together.</string>
+    <string name="dashboard_sub_header">Every pledge helps a rural school thrive.</string>
+    <string name="no_needs_yet">No school needs listed yet.</string>
+    <string name="empty_view_desc">Icon representing no data</string>
+</resources>
