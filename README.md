@@ -8,38 +8,37 @@ The app allows users to explore active school needs, pledge support, and help im
 
 ## Features
 
-* User Registration & Login
-* View Active School Needs
-* Pledge Support System
-* Firebase Realtime Database Integration
-* Firebase Authentication
-* Dynamic School Need Cards
-* Recent Pledges Display
-* Modern Material UI Design
-* Android Emulator & Real Device Support
+* **User Registration & Login**: Secure authentication for Alumni and Admins.
+* **Role-Based Access Control**: Different interfaces for Admins (Management) and Alumni (Donors).
+* **Admin Dashboard**: Specialized panel for school administrators to approve/reject pledges and track impact.
+* **Analytics Dashboard**: Real-time tracking of total funding and completed project counts.
+* **School Needs Management**: Admins can Add and Delete school needs.
+* **Pledge Support System**: Users can commit to helping specific needs.
+* **Category Filtering**: Easily browse needs by category (Infrastructure, Learning Materials, etc.).
+* **Donation Approval**: Verification system where Admins approve or reject pledges.
+* **Automatic Progress Tracking**: Project funding progress updates automatically upon pledge approval.
+* **Supporters List**: View community members who have pledged for a specific project.
+* **Before/After Progress**: Visual tracking of project completion with photo uploads.
+* **Hall of Fame**: Recognition for donors ranked by their total contribution.
+* **Profile & Personal History**: Users can view their total impact and full pledge history with status tracking (Pending/Approved/Rejected).
+* **Multi-language Support**: Full support for **Kannada** and English languages.
+* **Modern Material UI**: Clean, intuitive interface using Material 3 components.
 
 ---
 
 ## Tech Stack
 
 ### Frontend
-
 * Kotlin
 * XML Layouts
-* Android SDK
-* Material Design Components
+* View Binding
+* Jetpack Components (ViewModel, Lifecycle)
+* Glide (Image Loading)
 
 ### Backend & Services
-
 * Firebase Authentication
-* Firebase Realtime Database
-* Firebase Storage
-
-### Tools
-
-* Android Studio
-* Gradle
-* Git & GitHub
+* Firebase Cloud Firestore (NoSQL Database)
+* Firebase Storage (Image Hosting)
 
 ---
 
@@ -49,11 +48,16 @@ The app allows users to explore active school needs, pledge support, and help im
 app/
  ├── manifests/
  ├── java/com/example/shaale_vikas/
+ │    ├── AdminDashboardActivity.kt  # Admin Panel & Approval Logic
+ │    ├── MainActivity.kt            # Donor Dashboard & Need Listing
+ │    ├── ProfileActivity.kt         # User Profile & Pledge History
+ │    ├── DonorsActivity.kt          # Hall of Fame (Top Contributors)
+ │    ├── NeedDetailActivity.kt      # Detailed view with supporters list
  ├── res/
  │    ├── layout/
- │    ├── drawable/
- │    ├── values/
- └── build.gradle.kts
+ │    ├── drawable/                  # Includes status badges & custom shapes
+ │    ├── values/                    # English strings and themes
+ │    ├── values-kn/                 # Kannada localization
 ```
 
 ---
@@ -61,110 +65,61 @@ app/
 ## Installation & Setup
 
 ### 1. Clone Repository
-
 ```bash
 git clone https://github.com/sharfu027/Shaale-Vikas.git
 ```
 
 ### 2. Open in Android Studio
-
 * Open Android Studio
 * Click "Open"
 * Select the cloned project folder
 
 ### 3. Firebase Setup
-
 Add your Firebase configuration file:
-
 ```text
 app/google-services.json
 ```
-
 Enable:
-
 * Firebase Authentication
-* Firebase Realtime Database
+* Cloud Firestore
 * Firebase Storage
 
-### 4. Sync Gradle
-
-Allow Android Studio to complete Gradle sync.
-
-### 5. Run Project
-
-* Start Emulator or connect Android device
-* Click Run ▶
+### 4. Admin Setup
+To access the Admin features:
+1. Register a user in the app.
+2. Go to Firebase Console -> Firestore.
+3. Find your user document in the `users` collection.
+4. Change the `role` field from `"ALUMNI"` to `"ADMIN"`.
 
 ---
 
-## Firebase Rules (Development Mode)
+## Firebase Rules (Recommended)
 
-### Firestore / Realtime Database Rules
-
+### Firestore Rules
 ```javascript
-{
-  "rules": {
-    ".read": true,
-    ".write": true
-  }
-}
-```
-
-### Storage Rules
-
-```javascript
-rules_version = '2';
-
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if true;
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
     }
   }
 }
 ```
 
-> These rules are for development/testing only.
-
----
-
-## Current Modules
-
-* Authentication System
-* Dashboard
-* Need Listing
-* Donation/Pledge UI
-* Recent Pledges Adapter
-* Firebase Data Integration
-
 ---
 
 ## Future Improvements
-
-* Payment Gateway Integration
-* Admin Dashboard
-* NGO Verification
-* Push Notifications
-* Dark Mode
-* Analytics Dashboard
-* Multi-language Support
-
----
-
-## Screenshots
-
-*Add project screenshots here.*
+* Payment Gateway Integration (Razorpay/UPI)
+* Push Notifications for new needs
+* Dark Mode Support
 
 ---
 
 ## Author
-
 **Mohammed Sharfuddin**
-
 * GitHub: https://github.com/sharfu027
 
 ---
 
 ## License
-
 This project is developed for educational and social impact purposes.

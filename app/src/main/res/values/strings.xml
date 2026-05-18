@@ -87,4 +87,31 @@
     <string name="active_needs_label">Active School Needs</string>
     <string name="recent_pledges_label">Recent Pledges</string>
     <string name="for_project">for %1$s</string>
+
+    <!-- Admin Panel -->
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="total_funding">Total Funding</string>
+    <string name="completed_projects">Completed Projects</string>
+    <string name="pending_pledges">Pending Approval</string>
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+    <string name="pledge_approved">Pledge approved successfully</string>
+    <string name="pledge_rejected">Pledge rejected</string>
+    <string name="analytics">Analytics</string>
+
+    <!-- Missing Strings -->
+    <string name="success_stories">Success Stories</string>
+    <string name="my_profile">My Profile</string>
+    <string name="donor_rank_name">%1$d. %2$s</string>
+    <string name="one_contribution">1 contribution</string>
+    <string name="multiple_contributions">%1$d contributions</string>
+    <string name="project_supporters">Project Supporters</string>
+
+    <!-- Categories -->
+    <string name="cat_all">All</string>
+    <string name="cat_infrastructure">Infrastructure</string>
+    <string name="cat_learning_materials">Learning Materials</string>
+    <string name="cat_sports">Sports</string>
+    <string name="cat_sanitation">Sanitation</string>
+    <string name="cat_others">Others</string>
 </resources>

@@ -13,7 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shaale_vikas.databinding.ActivityMainBinding
-import com.example.shaale_vikas.databinding.DialogPledgeBinding
+import com.google.android.material.chip.Chip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
     private var pledgesListener: ListenerRegistration? = null
     
     private var isSeeding = false
+    private var currentUserRole: String = "ALUMNI"
+    private var selectedCategory: String = "All"
     private var pendingNeedForPhoto: Need? = null
     private val pickAfterImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null && pendingNeedForPhoto != null) {
@@ -44,21 +46,73 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        if (auth.currentUser == null) {
+            navigateToLogin()
+            return
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
         setupRecyclerViews()
+        setupCategoryFilters()
+        fetchUserRole()
 
         binding.fabAddNeed.setOnClickListener {
             startActivity(Intent(this, AddNeedActivity::class.java))
         }
     }
 
+    private fun setupCategoryFilters() {
+        val categories = listOf("All", "Infrastructure", "Learning Materials", "Sports", "Sanitation", "Others")
+        categories.forEach { category ->
+            val chip = Chip(this).apply {
+                text = category
+                isCheckable = true
+                isChecked = category == "All"
+                setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        selectedCategory = category
+                        startListening()
+                    }
+                }
+            }
+            binding.chipGroupCategories.addView(chip)
+        }
+    }
+
+    private fun fetchUserRole() {
+        val uid = auth.currentUser?.uid ?: return
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    currentUserRole = document.getString("role") ?: "ALUMNI"
+                    updateUIForRole()
+                }
+            }
+    }
+
+    private fun updateUIForRole() {
+        val isAdmin = currentUserRole == "ADMIN"
+        binding.fabAddNeed.visibility = if (isAdmin) View.VISIBLE else View.GONE
+        invalidateOptionsMenu()
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
     override fun onStart() {
         super.onStart()
-        startListening()
-        listenToPledges()
+        if (auth.currentUser != null) {
+            startListening()
+            listenToPledges()
+        }
     }
 
     override fun onStop() {
@@ -69,6 +123,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+        menu?.findItem(R.id.action_admin_dashboard)?.isVisible = (currentUserRole == "ADMIN")
         return true
     }
 
@@ -76,6 +131,18 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_hall_of_fame -> {
                 startActivity(Intent(this, DonorsActivity::class.java))
+                true
+            }
+            R.id.action_success_stories -> {
+                startActivity(Intent(this, SuccessStoriesActivity::class.java))
+                true
+            }
+            R.id.action_profile -> {
+                startActivity(Intent(this, ProfileActivity::class.java))
+                true
+            }
+            R.id.action_admin_dashboard -> {
+                startActivity(Intent(this, AdminDashboardActivity::class.java))
                 true
             }
             R.id.action_logout -> {
@@ -88,14 +155,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun logout() {
         auth.signOut()
-        startActivity(Intent(this, LoginActivity::class.java))
-        finishAffinity()
+        navigateToLogin()
     }
 
     private fun setupRecyclerViews() {
         adapter = NeedsAdapter(
-            onPledgeClick = { need -> showPledgeDialog(need) },
-            onLongClick = { need -> showAdminOptions(need) }
+            onPledgeClick = { need -> 
+                val intent = Intent(this, PledgeActivity::class.java).apply {
+                    putExtra("NEED_ID", need.firebaseId)
+                    putExtra("NEED_TITLE", need.title)
+                }
+                startActivity(intent)
+            },
+            onLongClick = { need -> 
+                if (currentUserRole == "ADMIN") {
+                    showAdminOptions(need)
+                }
+            }
         )
         binding.rvNeeds.layoutManager = LinearLayoutManager(this)
         binding.rvNeeds.adapter = adapter
@@ -107,9 +183,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun startListening() {
         needsListener?.remove()
-        // We use a simpler query first to avoid index requirements while testing
-        needsListener = db.collection("needs")
-            .addSnapshotListener { value, error ->
+        
+        var query: Query = db.collection("needs")
+        if (selectedCategory != "All") {
+            query = query.whereEqualTo("category", selectedCategory)
+        }
+
+        needsListener = query.addSnapshotListener { value, error ->
                 if (error != null) {
                     handleFirestoreError(error)
                     return@addSnapshotListener
@@ -117,14 +197,13 @@ class MainActivity : AppCompatActivity() {
 
                 val needsList = value?.toObjects(Need::class.java) ?: emptyList()
                 
-                if (needsList.isEmpty() && !isSeeding) {
+                if (needsList.isEmpty() && !isSeeding && currentUserRole == "ADMIN" && selectedCategory == "All") {
                     seedDefaultData()
                 }
                 
                 updateVisibility(needsList)
                 binding.tvActiveNeeds.text = needsList.count { it.status != "COMPLETED" }.toString()
                 
-                // Sort manually for now to ensure it works without complex indices
                 val sortedList = needsList.sortedByDescending { it.status == "OPEN" }
                 adapter.submitList(sortedList)
             }
@@ -143,22 +222,19 @@ class MainActivity : AppCompatActivity() {
     private fun handleFirestoreError(error: Exception) {
         Log.e("MainActivity", "Firestore Error: ${error.message}")
         if (error.message?.contains("PERMISSION_DENIED") == true) {
-            Toast.makeText(this, "Permission Denied! Please update Firestore Rules in Firebase Console to 'Test Mode'.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Permission Denied! Check your Firestore rules.", Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(this, "Error loading data: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun seedDefaultData() {
         isSeeding = true
-        Log.d("MainActivity", "Seeding default data...")
-        
         val need1 = Need(
             title = "New Library Books",
             description = "Providing updated science and literature books for students.",
             category = "Learning Materials",
             estimatedCost = 15000.0,
-            currentAmount = 2500.0,
             imageUrl = "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1000"
         )
         val need2 = Need(
@@ -166,34 +242,26 @@ class MainActivity : AppCompatActivity() {
             description = "Installation of a new RO water filtration system.",
             category = "Sanitation",
             estimatedCost = 25000.0,
-            currentAmount = 500.0,
             imageUrl = "https://images.unsplash.com/photo-1548936236-442d35a09804?q=80&w=1000"
         )
 
         val batch = db.batch()
-        val doc1 = db.collection("needs").document()
-        val doc2 = db.collection("needs").document()
+        batch.set(db.collection("needs").document(), need1)
+        batch.set(db.collection("needs").document(), need2)
         
-        batch.set(doc1, need1)
-        batch.set(doc2, need2)
-        
-        batch.commit()
-            .addOnSuccessListener { 
-                Log.d("MainActivity", "Seeding successful")
-                isSeeding = false 
-            }
-            .addOnFailureListener { e -> 
-                Log.e("MainActivity", "Seeding failed", e)
-                isSeeding = false 
-            }
+        batch.commit().addOnCompleteListener { isSeeding = false }
     }
 
     private fun listenToPledges() {
         pledgesListener?.remove()
         pledgesListener = db.collection("pledges")
+            .whereEqualTo("status", "APPROVED")
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
-                if (error != null) return@addSnapshotListener
+                if (error != null) {
+                    Log.e("MainActivity", "Pledges Error: ${error.message}")
+                    return@addSnapshotListener
+                }
                 
                 val pledges = value?.toObjects(Pledge::class.java) ?: emptyList()
                 val totalAmount = pledges.sumOf { it.amount }
@@ -204,7 +272,7 @@ class MainActivity : AppCompatActivity() {
                 if (pledges.isNotEmpty()) {
                     binding.recentPledgesHeader.visibility = View.VISIBLE
                     binding.rvRecentPledges.visibility = View.VISIBLE
-                    recentPledgesAdapter.submitList(pledges.take(5))
+                    recentPledgesAdapter.submitList(pledges.take(10))
                 } else {
                     binding.recentPledgesHeader.visibility = View.GONE
                     binding.rvRecentPledges.visibility = View.GONE
@@ -256,59 +324,6 @@ class MainActivity : AppCompatActivity() {
         db.collection("needs").document(need.firebaseId).delete()
             .addOnSuccessListener {
                 Toast.makeText(this, getString(R.string.need_deleted), Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun showPledgeDialog(need: Need) {
-        val dialogBinding = DialogPledgeBinding.inflate(layoutInflater)
-        val dialog = AlertDialog.Builder(this)
-            .setTitle(R.string.pledge_dialog_title)
-            .setView(dialogBinding.root)
-            .setPositiveButton(R.string.pledge_dialog_positive, null)
-            .setNegativeButton(R.string.pledge_dialog_negative, null)
-            .create()
-
-        dialog.show()
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-            val name = dialogBinding.etDonorName.text.toString().trim()
-            val amountStr = dialogBinding.etAmount.text.toString().trim()
-            
-            if (name.isNotEmpty() && amountStr.isNotEmpty()) {
-                val amount = amountStr.toDoubleOrNull() ?: 0.0
-                if (amount > 0) {
-                    performPledge(need, name, amount)
-                    dialog.dismiss()
-                } else {
-                    Toast.makeText(this, getString(R.string.invalid_amount), Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun performPledge(need: Need, donorName: String, amount: Double) {
-        val newAmount = need.currentAmount + amount
-        val updates = mutableMapOf<String, Any>("currentAmount" to newAmount)
-        
-        if (newAmount >= need.estimatedCost) {
-            updates["status"] = "PLEDGED"
-        }
-
-        db.collection("needs").document(need.firebaseId).update(updates)
-            .addOnSuccessListener {
-                val pledge = Pledge(
-                    needId = need.firebaseId,
-                    needTitle = need.title,
-                    donorName = donorName,
-                    amount = amount
-                )
-                db.collection("pledges").add(pledge)
-                Toast.makeText(this, getString(R.string.thank_you_donor, donorName), Toast.LENGTH_LONG).show()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, getString(R.string.pledge_failed, e.message), Toast.LENGTH_SHORT).show()
             }
     }
 }

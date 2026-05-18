@@ -1,0 +1,117 @@
+<resources>
+    <string name="app_name">ಶಾಲೆ-ವಿಕಾಸ</string>
+    <string name="pledged_on">%1$s ರಂದು ವಾಗ್ದಾನ ಮಾಡಲಾಗಿದೆ</string>
+    <string name="collected_status">ಸಂಗ್ರಹಿಸಲಾಗಿದೆ: %1$s / %2$s</string>
+    <string name="hall_of_fame">ಗೌರವ ಪಟ್ಟಿ</string>
+    <string name="add_new_need">ಹೊಸ ಅಗತ್ಯವನ್ನು ಸೇರಿಸಿ</string>
+    <string name="post_need">ಅಗತ್ಯವನ್ನು ಸಲ್ಲಿಸಿ</string>
+    <string name="pledge_support">ಬೆಂಬಲದ ವಾಗ್ದಾನ</string>
+    <string name="progress_percent">%1$d%%</string>
+    <string name="pledge_dialog_title">ಬೆಂಬಲದ ವಾಗ್ದಾನ</string>
+    <string name="pledge_dialog_positive">ವಾಗ್ದಾನ</string>
+    <string name="pledge_dialog_negative">ರದ್ದುಮಾಡಿ</string>
+    <string name="fill_all_fields">ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ</string>
+    <string name="thank_you_donor">ಧನ್ಯವಾದಗಳು %1$s ನಿಮ್ಮ ವಾಗ್ದಾನಕ್ಕಾಗಿ!</string>
+    <string name="pledge_failed">ವಾಗ್ದಾನ ವಿಫಲವಾಗಿದೆ: %1$s</string>
+    <string name="error_fetching_needs">ಅಗತ್ಯಗಳನ್ನು ಪಡೆಯುವಲ್ಲಿ ದೋಷ: %1$s</string>
+    <string name="select_category">ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="need_title_hint">ಶೀರ್ಷಿಕೆ (ಉದಾ: ಶೌಚಾಲಯ ದುರಸ್ತಿ)</string>
+    <string name="need_desc_hint">ವಿವರಣೆ</string>
+    <string name="need_cost_hint">ಅಂದಾಜು ವೆಚ್ಚ (₹)</string>
+    <string name="need_photo_label">ಅಗತ್ಯದ ಫೋಟೋ (ಮೊದಲು)</string>
+    <string name="project_completed">ಈ ಯೋಜನೆಯು ಈಗಾಗಲೇ ಪೂರ್ಣಗೊಂಡಿದೆ!</string>
+    <string name="status_open">ಮುಕ್ತವಾಗಿದೆ</string>
+    <string name="status_pledged">ವಾಗ್ದಾನ ಮಾಡಲಾಗಿದೆ</string>
+    <string name="status_completed">ಪೂರ್ಣಗೊಂಡಿದೆ</string>
+    <string name="admin_options">ನಿರ್ವಾಹಕ ಆಯ್ಕೆಗಳು</string>
+    <string name="mark_completed">ಪೂರ್ಣಗೊಂಡಿದೆ ಎಂದು ಗುರುತಿಸಿ</string>
+    <string name="delete">ಅಳಿಸಿ</string>
+    <string name="photo_upload_failed">ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ವಿಫಲವಾಗಿದೆ</string>
+    <string name="project_marked_completed">ಯೋಜನೆಯನ್ನು ಪೂರ್ಣಗೊಂಡಿದೆ ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ!</string>
+    <string name="need_deleted">ಅಗತ್ಯವನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
+    <string name="enter_title_error">ದಯವಿಟ್ಟು ಮೊದಲು ಶೀರ್ಷಿಕೆಯನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="upload_failed">ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ</string>
+    <string name="post_success">ಅಗತ್ಯವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!</string>
+    <string name="post_failed">ಅಗತ್ಯವನ್ನು ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ</string>
+
+    <!-- Login & Register -->
+    <string name="welcome_back">ಸ್ವಾಗತ</string>
+    <string name="login_subtitle">ನಿಮ್ಮ ಶಾಲೆಗೆ ಬೆಂಬಲ ನೀಡಲು ಲಾಗಿನ್ ಮಾಡಿ</string>
+    <string name="email_hint">ಇಮೇಲ್</string>
+    <string name="password_hint">ಪಾಸ್‌ವರ್ಡ್</string>
+    <string name="login_button">ಲಾಗಿನ್</string>
+    <string name="logging_in">ಲಾಗಿನ್ ಆಗುತ್ತಿದೆ...</string>
+    <string name="no_account">ಖಾತೆ ಇಲ್ಲವೇ? ಇಲ್ಲಿ ನೋಂದಾಯಿಸಿ</string>
+    <string name="join_shaale_vikas">ಶಾಲೆ-ವಿಕಾಸಕ್ಕೆ ಸೇರಿ</string>
+    <string name="register_subtitle">ಸ್ಥಳೀಯ ಶಾಲೆಗಳಿಗೆ ಸಹಾಯ ಮಾಡಲು ಖಾತೆಯನ್ನು ರಚಿಸಿ</string>
+    <string name="full_name_hint">ಪೂರ್ಣ ಹೆಸರು</string>
+    <string name="register_button">ನೋಂದಾಯಿಸಿ</string>
+    <string name="registering">ನೋಂದಾಯಿಸಲಾಗುತ್ತಿದೆ...</string>
+    <string name="already_have_account">ಈಗಾಗಲೇ ಖಾತೆ ಇದೆಯೇ? ಇಲ್ಲಿ ಲಾಗಿನ್ ಮಾಡಿ</string>
+    <string name="login_successful">ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ!</string>
+    <string name="login_failed">ಲಾಗಿನ್ ವಿಫಲವಾಗಿದೆ: %1$s</string>
+    <string name="registration_successful">ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ!</string>
+    <string name="registration_failed">ನೋಂದಣಿ ವಿಫಲವಾಗಿದೆ: %1$s</string>
+    <string name="password_too_short">ಪಾಸ್‌ವರ್ಡ್ ಕನಿಷ್ಠ 6 ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು</string>
+    <string name="logout">ಲಾಗ್ ಔಟ್</string>
+
+    <!-- Validation Errors -->
+    <string name="error_email_required">ಇಮೇಲ್ ಅಗತ್ಯವಿದೆ</string>
+    <string name="error_invalid_email">ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="error_password_required">ಪಾಸ್‌ವರ್ಡ್ ಅಗತ್ಯವಿದೆ</string>
+    <string name="error_name_required">ಪೂರ್ಣ ಹೆಸರು ಅಗತ್ಯವಿದೆ</string>
+    <string name="error_network">ನೆಟ್‌ವರ್ಕ್ ದೋಷ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ.</string>
+    <string name="error_user_not_found">ಈ ಇಮೇಲ್‌ನೊಂದಿಗೆ ಯಾವುದೇ ಖಾತೆ ಕಂಡುಬಂದಿಲ್ಲ.</string>
+    <string name="error_invalid_credentials">ತಪ್ಪಾದ ಇಮೇಲ್ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್.</string>
+    <string name="error_email_collision">ಈ ಇಮೇಲ್ ಈಗಾಗಲೇ ನೋಂದಾಯಿಸಲ್ಪಟ್ಟಿದೆ.</string>
+
+    <!-- Dialogs & Labels -->
+    <string name="donor_name_hint">ನಿಮ್ಮ ಹೆಸರು</string>
+    <string name="pledge_amount_hint">ವಾಗ್ದಾನದ ಮೊತ್ತ (₹)</string>
+    <string name="pledge_note">ಗಮನಿಸಿ: ಇದು ಶಾಲೆಗೆ ಸಹಾಯ ಮಾಡುವ ಬದ್ಧತೆಯ ಸಿಮ್ಯುಲೇಶನ್ ಆಗಿದೆ.</string>
+    <string name="error_fetching_donors">ದಾನಿಗಳನ್ನು ಪಡೆಯುವಲ್ಲಿ ದೋಷ: %1$s</string>
+    <string name="no_donors_yet">ಇನ್ನೂ ಯಾವುದೇ ದಾನಿಗಳಿಲ್ಲ.</string>
+    <string name="uploading_dots">ಅಪ್‌ಲೋಡ್ ಆಗುತ್ತಿದೆ...</string>
+    <string name="share_subject">ನಮ್ಮ ಶಾಲೆಯನ್ನು ಬೆಂಬಲಿಸಿ: %1$s</string>
+    <string name="share_text">ನಮ್ಮ ಶಾಲೆಗೆ %1$s ರೊಂದಿಗೆ ಸಹಾಯ ಮಾಡಿ. ನಮಗೆ ಈ ಉಪಕ್ರಮಕ್ಕಾಗಿ %2$s ಅಗತ್ಯವಿದೆ. ಶಾಲೆ-ವಿಕಾಸ ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಇದನ್ನು ಪರಿಶೀಲಿಸಿ!</string>
+    <string name="invalid_amount">ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಮೊತ್ತವನ್ನು ನಮೂದಿಸಿ</string>
+
+    <!-- Presentation Polish -->
+    <string name="dashboard_header">ನಮ್ಮ ಮಕ್ಕಳ ಭವಿಷ್ಯವನ್ನು ಒಟ್ಟಾಗಿ ನಿರ್ಮಿಸೋಣ.</string>
+    <string name="dashboard_sub_header">ಪ್ರತಿ ವಾಗ್ದಾನವು ಗ್ರಾಮೀಣ ಶಾಲೆಯ ಅಭಿವೃದ್ಧಿಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ.</string>
+    <string name="no_needs_yet">ಇನ್ನೂ ಯಾವುದೇ ಶಾಲಾ ಅಗತ್ಯಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡಲಾಗಿಲ್ಲ.</string>
+    <string name="empty_view_desc">ಯಾವುದೇ ಡೇಟಾ ಇಲ್ಲದ ಐಕಾನ್</string>
+
+    <string name="community_impact">ಸಮುದಾಯದ ಪ್ರಭಾವ</string>
+    <string name="total_pledged_label">ಒಟ್ಟು ವಾಗ್ದಾನ ಮಾಡಿದ ಮೊತ್ತ</string>
+    <string name="active_needs_label">ಸಕ್ರಿಯ ಶಾಲಾ ಅಗತ್ಯಗಳು</string>
+    <string name="recent_pledges_label">ಇತ್ತೀಚಿನ ವಾಗ್ದಾನಗಳು</string>
+    <string name="for_project">%1$s ಗಾಗಿ</string>
+
+    <!-- Admin Panel -->
+    <string name="admin_dashboard">ನಿರ್ವಾಹಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</string>
+    <string name="total_funding">ಒಟ್ಟು ಧನಸಹಾಯ</string>
+    <string name="completed_projects">ಪೂರ್ಣಗೊಂಡ ಯೋಜನೆಗಳು</string>
+    <string name="pending_pledges">ಅನುಮೋದನೆಗಾಗಿ ಬಾಕಿ ಇವೆ</string>
+    <string name="approve">ಅನುಮೋದಿಸಿ</string>
+    <string name="reject">ತಿರಸ್ಕರಿಸಿ</string>
+    <string name="pledge_approved">ವಾಗ್ದಾನವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅನುಮೋದಿಸಲಾಗಿದೆ</string>
+    <string name="pledge_rejected">ವಾಗ್ದಾನವನ್ನು ತಿರಸ್ಕರಿಸಲಾಗಿದೆ</string>
+    <string name="analytics">ವಿಶ್ಲೇಷಣೆ</string>
+
+    <!-- Missing Strings -->
+    <string name="success_stories">ಯಶೋಗಾಥೆಗಳು</string>
+    <string name="my_profile">ನನ್ನ ಪ್ರೊಫೈಲ್</string>
+    <string name="donor_rank_name">%1$d. %2$s</string>
+    <string name="one_contribution">1 ಕೊಡುಗೆ</string>
+    <string name="multiple_contributions">%1$d ಕೊಡುಗೆಗಳು</string>
+    <string name="project_supporters">ಯೋಜನೆಯ ಬೆಂಬಲಿಗರು</string>
+
+    <!-- Categories -->
+    <string name="cat_all">ಎಲ್ಲವೂ</string>
+    <string name="cat_infrastructure">ಮೂಲಸೌಕರ್ಯ</string>
+    <string name="cat_learning_materials">ಕಲಿಕಾ ಸಾಮಗ್ರಿಗಳು</string>
+    <string name="cat_sports">ಕ್ರೀಡೆ</string>
+    <string name="cat_sanitation">ನೈರ್ಮಲ್ಯ</string>
+    <string name="cat_others">ಇತರೆ</string>
+</resources>

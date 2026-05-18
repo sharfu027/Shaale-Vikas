@@ -15,13 +15,17 @@
         android:theme="@style/Theme.ShaaleVikas">
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
 
         <activity
             android:name=".RegisterActivity"
@@ -33,6 +37,18 @@
             android:exported="false" />
 
         <activity
+            android:name=".AdminDashboardActivity"
+            android:exported="false"
+            android:label="@string/admin_dashboard"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".PledgeActivity"
+            android:exported="false"
+            android:label="Make a Pledge"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
             android:name=".AddNeedActivity"
             android:exported="false"
             android:label="Add School Need" />
@@ -41,6 +57,21 @@
             android:name=".DonorsActivity"
             android:exported="false"
             android:label="Donor Hall of Fame" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:label="My Profile" />
+
+        <activity
+            android:name=".NeedDetailActivity"
+            android:exported="false"
+            android:label="Need Details" />
+
+        <activity
+            android:name=".SuccessStoriesActivity"
+            android:exported="false"
+            android:label="Success Stories" />
 
     </application>
 

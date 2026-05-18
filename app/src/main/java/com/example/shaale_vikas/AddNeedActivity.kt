@@ -49,7 +49,13 @@ class AddNeedActivity : AppCompatActivity() {
     }
 
     private fun setupCategorySpinner() {
-        val categories = arrayOf("Infrastructure", "Learning Materials", "Sports", "Sanitation", "Others")
+        val categories = arrayOf(
+            getString(R.string.cat_infrastructure),
+            getString(R.string.cat_learning_materials),
+            getString(R.string.cat_sports),
+            getString(R.string.cat_sanitation),
+            getString(R.string.cat_others)
+        )
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, categories)
         binding.actCategory.setAdapter(adapter)
     }
@@ -79,9 +85,9 @@ class AddNeedActivity : AppCompatActivity() {
         val title = binding.etTitle.text.toString().trim()
         val description = binding.etDescription.text.toString().trim()
         val costString = binding.etCost.text.toString().trim()
-        val category = binding.actCategory.text.toString()
+        val categoryDisplay = binding.actCategory.text.toString()
 
-        if (title.isEmpty() || description.isEmpty() || costString.isEmpty() || category.isEmpty()) {
+        if (title.isEmpty() || description.isEmpty() || costString.isEmpty() || categoryDisplay.isEmpty()) {
             Toast.makeText(this, getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show()
             setLoading(false)
             return
@@ -91,10 +97,21 @@ class AddNeedActivity : AppCompatActivity() {
 
         val cost = costString.toDoubleOrNull() ?: 0.0
         
+        // Map localized category back to a standard key for database consistency if needed
+        // For simplicity here, we'll store the display name, but in a production app, 
+        // we should map it back to an English key or constant.
+        val categoryKey = when(categoryDisplay) {
+            getString(R.string.cat_infrastructure) -> "Infrastructure"
+            getString(R.string.cat_learning_materials) -> "Learning Materials"
+            getString(R.string.cat_sports) -> "Sports"
+            getString(R.string.cat_sanitation) -> "Sanitation"
+            else -> "Others"
+        }
+
         val newNeed = Need(
             title = title,
             description = description,
-            category = category,
+            category = categoryKey,
             estimatedCost = cost,
             currentAmount = 0.0,
             imageUrl = imageUrl ?: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000&auto=format&fit=crop",

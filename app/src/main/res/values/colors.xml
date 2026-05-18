@@ -7,4 +7,5 @@
     <color name="secondary">#1565C0</color> <!-- Blue for Education -->
     <color name="accent">#F9A825</color> <!-- Amber for Urgency/Progress -->
     <color name="background">#F5F5F5</color>
+    <color name="error">#B00020</color>
 </resources>

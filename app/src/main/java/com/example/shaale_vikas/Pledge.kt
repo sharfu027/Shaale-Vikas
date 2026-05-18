@@ -9,8 +9,10 @@ data class Pledge(
     val firebaseId: String = "",
     val needId: String = "",
     val needTitle: String = "",
+    val donorId: String = "", // Added for better tracking
     val donorName: String = "",
     val amount: Double = 0.0,
+    val status: String = "PENDING", // PENDING, APPROVED
     @ServerTimestamp
     val timestamp: Date? = null
 )

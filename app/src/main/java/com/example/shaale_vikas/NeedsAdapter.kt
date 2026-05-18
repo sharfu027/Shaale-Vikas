@@ -74,6 +74,13 @@ class NeedsAdapter(
                 context.startActivity(Intent.createChooser(shareIntent, "Share via"))
             }
 
+            binding.root.setOnClickListener {
+                val intent = Intent(context, NeedDetailActivity::class.java).apply {
+                    putExtra("NEED_ID", need.firebaseId)
+                }
+                context.startActivity(intent)
+            }
+
             binding.root.setOnLongClickListener {
                 onLongClick(need)
                 true

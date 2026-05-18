@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shaale_vikas.databinding.ActivityDonorsBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 
 class DonorsActivity : AppCompatActivity() {
 
@@ -36,8 +35,9 @@ class DonorsActivity : AppCompatActivity() {
     private fun fetchDonors() {
         binding.progressBar.visibility = View.VISIBLE
         
+        // Fetch only approved pledges for the Hall of Fame
         db.collection("pledges")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .whereEqualTo("status", "APPROVED")
             .addSnapshotListener { value, error ->
                 binding.progressBar.visibility = View.GONE
                 
@@ -50,12 +50,26 @@ class DonorsActivity : AppCompatActivity() {
                 
                 if (pledges.isEmpty()) {
                     binding.tvEmptyDonors.visibility = View.VISIBLE
+                    adapter.submitList(emptyList())
                 } else {
                     binding.tvEmptyDonors.visibility = View.GONE
+                    val donorStats = aggregateDonors(pledges)
+                    adapter.submitList(donorStats)
                 }
-                
-                adapter.submitList(pledges)
             }
+    }
+
+    private fun aggregateDonors(pledges: List<Pledge>): List<DonorStats> {
+        return pledges.groupBy { it.donorId }
+            .map { (id, donorPledges) ->
+                DonorStats(
+                    donorId = id,
+                    donorName = donorPledges.firstOrNull()?.donorName ?: "Anonymous",
+                    totalAmount = donorPledges.sumOf { it.amount },
+                    pledgeCount = donorPledges.size
+                )
+            }
+            .sortedByDescending { it.totalAmount }
     }
 
     override fun onSupportNavigateUp(): Boolean {

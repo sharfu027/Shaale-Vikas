@@ -10,6 +10,7 @@ import com.example.shaale_vikas.databinding.ActivityRegisterBinding
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 
 class RegisterActivity : AppCompatActivity() {
@@ -72,7 +73,16 @@ class RegisterActivity : AppCompatActivity() {
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener { result ->
-                val userId = result.user?.uid ?: ""
+                val user = result.user
+                val userId = user?.uid ?: ""
+                
+                // Update Firebase Auth Profile with Name
+                val profileUpdates = userProfileChangeRequest {
+                    displayName = name
+                }
+                
+                user?.updateProfile(profileUpdates)
+
                 val userMap = hashMapOf(
                     "uid" to userId,
                     "name" to name,

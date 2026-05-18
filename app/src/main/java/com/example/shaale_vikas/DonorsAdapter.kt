@@ -7,21 +7,23 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shaale_vikas.databinding.ItemDonorBinding
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.Locale
 
-class DonorsAdapter : ListAdapter<Pledge, DonorsAdapter.DonorViewHolder>(PledgeDiffCallback()) {
+class DonorsAdapter : ListAdapter<DonorStats, DonorsAdapter.DonorViewHolder>(DonorStatsDiffCallback()) {
 
     inner class DonorViewHolder(private val binding: ItemDonorBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(donor: Pledge) {
-            binding.tvDonorName.text = donor.donorName
+        fun bind(stats: DonorStats, rank: Int) {
+            val context = binding.root.context
+            binding.tvDonorName.text = context.getString(R.string.donor_rank_name, rank, stats.donorName)
             
             val currencyFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
-            binding.tvAmount.text = currencyFormat.format(donor.amount)
+            binding.tvAmount.text = currencyFormat.format(stats.totalAmount)
             
-            val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-            val dateStr = donor.timestamp?.let { sdf.format(it) } ?: "Recently"
-            binding.tvDate.text = binding.root.context.getString(R.string.pledged_on, dateStr)
+            binding.tvDate.text = if (stats.pledgeCount == 1) {
+                context.getString(R.string.one_contribution)
+            } else {
+                context.getString(R.string.multiple_contributions, stats.pledgeCount)
+            }
         }
     }
 
@@ -31,15 +33,15 @@ class DonorsAdapter : ListAdapter<Pledge, DonorsAdapter.DonorViewHolder>(PledgeD
     }
 
     override fun onBindViewHolder(holder: DonorViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position + 1)
     }
 
-    class PledgeDiffCallback : DiffUtil.ItemCallback<Pledge>() {
-        override fun areItemsTheSame(oldItem: Pledge, newItem: Pledge): Boolean {
-            return oldItem.firebaseId == newItem.firebaseId
+    class DonorStatsDiffCallback : DiffUtil.ItemCallback<DonorStats>() {
+        override fun areItemsTheSame(oldItem: DonorStats, newItem: DonorStats): Boolean {
+            return oldItem.donorId == newItem.donorId
         }
 
-        override fun areContentsTheSame(oldItem: Pledge, newItem: Pledge): Boolean {
+        override fun areContentsTheSame(oldItem: DonorStats, newItem: DonorStats): Boolean {
             return oldItem == newItem
         }
     }
