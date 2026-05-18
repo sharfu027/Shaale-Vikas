@@ -2,13 +2,13 @@ package com.example.shaale_vikas
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shaale_vikas.databinding.ActivityRegisterBinding
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -37,15 +37,36 @@ class RegisterActivity : AppCompatActivity() {
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
 
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show()
-            return
+        var isValid = true
+
+        if (name.isEmpty()) {
+            binding.tilName.error = getString(R.string.error_name_required)
+            isValid = false
+        } else {
+            binding.tilName.error = null
         }
 
-        if (password.length < 6) {
-            Toast.makeText(this, getString(R.string.password_too_short), Toast.LENGTH_SHORT).show()
-            return
+        if (email.isEmpty()) {
+            binding.tilEmail.error = getString(R.string.error_email_required)
+            isValid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.tilEmail.error = getString(R.string.error_invalid_email)
+            isValid = false
+        } else {
+            binding.tilEmail.error = null
         }
+
+        if (password.isEmpty()) {
+            binding.tilPassword.error = getString(R.string.error_password_required)
+            isValid = false
+        } else if (password.length < 6) {
+            binding.tilPassword.error = getString(R.string.password_too_short)
+            isValid = false
+        } else {
+            binding.tilPassword.error = null
+        }
+
+        if (!isValid) return
 
         setLoading(true)
 
@@ -79,15 +100,21 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun handleError(e: Exception) {
         val message = when (e) {
-            is FirebaseNetworkException -> "Network error. Please check your internet connection."
-            is FirebaseAuthUserCollisionException -> "This email is already registered."
-            else -> "Error: ${e.localizedMessage}. Please ensure Email/Password auth is enabled in Firebase Console."
+            is FirebaseNetworkException -> getString(R.string.error_network)
+            is FirebaseAuthUserCollisionException -> getString(R.string.error_email_collision)
+            else -> getString(R.string.registration_failed, e.localizedMessage)
         }
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun setLoading(isLoading: Boolean) {
         binding.btnRegister.isEnabled = !isLoading
-        binding.btnRegister.text = if (isLoading) getString(R.string.registering) else getString(R.string.register_button)
+        binding.btnRegister.text = if (isLoading) "" else getString(R.string.register_button)
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        
+        binding.etName.isEnabled = !isLoading
+        binding.etEmail.isEnabled = !isLoading
+        binding.etPassword.isEnabled = !isLoading
+        binding.tvGoToLogin.isEnabled = !isLoading
     }
 }

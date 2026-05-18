@@ -2,6 +2,7 @@ package com.example.shaale_vikas
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
+        // Auto-login if user is already authenticated
         if (auth.currentUser != null) {
             startMainActivity()
             return
@@ -40,10 +42,26 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show()
-            return
+        var isValid = true
+
+        if (email.isEmpty()) {
+            binding.tilEmail.error = getString(R.string.error_email_required)
+            isValid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.tilEmail.error = getString(R.string.error_invalid_email)
+            isValid = false
+        } else {
+            binding.tilEmail.error = null
         }
+
+        if (password.isEmpty()) {
+            binding.tilPassword.error = getString(R.string.error_password_required)
+            isValid = false
+        } else {
+            binding.tilPassword.error = null
+        }
+
+        if (!isValid) return
 
         setLoading(true)
 
@@ -61,17 +79,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleLoginError(e: Exception) {
         val message = when (e) {
-            is FirebaseNetworkException -> "Network error. Please check your internet connection."
-            is FirebaseAuthInvalidUserException -> "No account found with this email."
-            is FirebaseAuthInvalidCredentialsException -> "Invalid email or password."
-            else -> "Login failed: ${e.localizedMessage}"
+            is FirebaseNetworkException -> getString(R.string.error_network)
+            is FirebaseAuthInvalidUserException -> getString(R.string.error_user_not_found)
+            is FirebaseAuthInvalidCredentialsException -> getString(R.string.error_invalid_credentials)
+            else -> getString(R.string.login_failed, e.localizedMessage)
         }
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun setLoading(isLoading: Boolean) {
         binding.btnLogin.isEnabled = !isLoading
-        binding.btnLogin.text = if (isLoading) getString(R.string.logging_in) else getString(R.string.login_button)
+        binding.btnLogin.text = if (isLoading) "" else getString(R.string.login_button)
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        
+        binding.etEmail.isEnabled = !isLoading
+        binding.etPassword.isEnabled = !isLoading
+        binding.tvGoToRegister.isEnabled = !isLoading
     }
 
     private fun startMainActivity() {

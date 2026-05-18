@@ -55,6 +55,16 @@
     <string name="password_too_short">Password must be at least 6 characters</string>
     <string name="logout">Logout</string>
 
+    <!-- Validation Errors -->
+    <string name="error_email_required">Email is required</string>
+    <string name="error_invalid_email">Please enter a valid email address</string>
+    <string name="error_password_required">Password is required</string>
+    <string name="error_name_required">Full Name is required</string>
+    <string name="error_network">Network error. Please check your internet connection.</string>
+    <string name="error_user_not_found">No account found with this email.</string>
+    <string name="error_invalid_credentials">Invalid email or password.</string>
+    <string name="error_email_collision">This email is already registered.</string>
+
     <!-- Dialogs & Labels -->
     <string name="donor_name_hint">Your Name</string>
     <string name="pledge_amount_hint">Pledge Amount (₹)</string>
@@ -71,4 +81,10 @@
     <string name="dashboard_sub_header">Every pledge helps a rural school thrive.</string>
     <string name="no_needs_yet">No school needs listed yet.</string>
     <string name="empty_view_desc">Icon representing no data</string>
+
+    <string name="community_impact">Community Impact</string>
+    <string name="total_pledged_label">Total Amount Pledged</string>
+    <string name="active_needs_label">Active School Needs</string>
+    <string name="recent_pledges_label">Recent Pledges</string>
+    <string name="for_project">for %1$s</string>
 </resources>

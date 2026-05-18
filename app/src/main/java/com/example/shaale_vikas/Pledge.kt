@@ -8,6 +8,7 @@ data class Pledge(
     @DocumentId
     val firebaseId: String = "",
     val needId: String = "",
+    val needTitle: String = "",
     val donorName: String = "",
     val amount: Double = 0.0,
     @ServerTimestamp
